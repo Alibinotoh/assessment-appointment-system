@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
 import 'client/client_home_screen.dart';
 import 'admin/login_screen.dart';
 
@@ -11,28 +10,24 @@ class PlatformRouterScreen extends StatelessWidget {
   const PlatformRouterScreen({Key? key}) : super(key: key);
 
   bool _isMobileDevice(BuildContext context) {
-    // Check if running on actual mobile device
+    // If the app is not running on the web, we assume it's a mobile device.
     if (!kIsWeb) {
-      try {
-        return Platform.isAndroid || Platform.isIOS;
-      } catch (e) {
-        return false;
-      }
+      return true;
     }
     
-    // For web: Check screen size to detect mobile view
-    // This works with Chrome DevTools mobile emulation
+    // For web: Check screen size to detect mobile view.
+    // This is a simple heuristic and works with browser dev tools.
     final size = MediaQuery.of(context).size;
     final width = size.width;
     
-    // If width is less than 600px, treat as mobile
+    // If width is less than a certain threshold, treat as mobile view.
     return width < 600;
   }
 
   @override
   Widget build(BuildContext context) {
-    // Mobile (real device or small screen) → Client Home
-    // Desktop/Web (large screen) → Admin Login
+    // On a mobile device (or small web screen), show the client interface.
+    // On a desktop web browser, show the admin login.
     return _isMobileDevice(context)
         ? const ClientHomeScreen() 
         : const AdminLoginScreen();
