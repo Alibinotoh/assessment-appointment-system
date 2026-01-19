@@ -20,7 +20,7 @@ RUN flutter doctor
 # Copy the app files and build
 COPY --chown=flutteruser:flutteruser . .
 RUN flutter pub get
-RUN flutter build web --release
+RUN flutter build web --release --verbose
 
 # Stage 2: Set up the production server
 FROM debian:stable-slim
