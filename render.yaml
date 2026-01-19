@@ -21,12 +21,11 @@ services:
       - key: ALLOWED_ORIGINS
         value: "*" # You should restrict this to your frontend's URL in production
 
-  - type: static
+  - type: static_site
     name: msu-frontend
-    env: static
     rootDir: flutter_app
     buildCommand: "flutter build web --release"
-    staticPublishPath: ./build/web
+    publishDir: build/web
     routes:
       - type: rewrite
         source: "/*"
